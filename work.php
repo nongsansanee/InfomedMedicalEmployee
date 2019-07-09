@@ -34,7 +34,7 @@ if (isset($_POST["save"])){
 	//call api update emp web med
 	
 
-	
+	$flag_technicid_save = 0;
 	$sql="DELETE FROM `tbemptechnic` WHERE `empid` = '$empid'";
 	$result = $db_conn->query ($sql);
 	for($i=0;$i<count($col10);$i++){
@@ -45,15 +45,25 @@ if (isset($_POST["save"])){
 		echo "technicid=".$col11[$i];
 		$technicid_save = $col11[$i];
 		echo "technicid_save=".$technicid_save;
+
+		if($technicid_save ==5){
+			$flag_technicid_save = 1;
+		}
 	}
 	
 	
 		/****************Send Data To WEB MED  by call API  updEmp  (sansanee 020762)****************/
 	
+		if($flag_technicid_save ==1){
+			$technicid_save = 5;
+		}else{
+			$technicid_save = 0;
+		}
 		
+
 		$url = 'https://www.si.mahidol.ac.th/department/Medicine/home/api/updEmpWork.asp';
 		$data = "action=1&sapid=".$empid."&userin=".$userin."&empflag=".$empflag."&unitid=".$workunit."&workposition=".$workposition."&positiontype=".$positiontype."&technicid=".$technicid_save."&manager=".$manager;
-		//echo "DATA=".$data."<br>";
+		echo "DATA=".$data."<br>";
 		//msgBox($data);
 		$options = array(
 			'http' => array(
@@ -394,7 +404,7 @@ if(empty($wdate) || $wdate=="0000-00-00"){
 		   <tr> 
 		     <td align="right"> หัวหน้าหน่วย/สาขา </td>
 			 <td align="center">:</td>
-			 <td><input type="checkbox" name="manager" value="6">สำหรับแสดงข้อมูลบุคลากรเป็นคนแรกของแต่ละส่วนงาน  บน website</td>
+			 <td><input type="checkbox" name="manager" value="1">สำหรับแสดงข้อมูลบุคลากรเป็นคนแรกของแต่ละส่วนงาน  บน website</td>
 			
           </tr>
           <tr> 

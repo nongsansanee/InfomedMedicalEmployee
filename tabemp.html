@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-874">
+<title>เมนูบุคลากร</title>
+<script type="text/javascript" src="../inc/statushide.js"></script>
+<script src="../object/aw.js"></script>
+<link href="../object/mini.css" rel="stylesheet">
+<link href="../object/xp/aw.css" rel="stylesheet">
+<style>
+	body {font: 12px Tahoma}
+	#myTabs {width: 100%}
+</style>
+</head>
+
+<body>
+	<span id="myTabs"></span>
+	<iframe id="myContent" style="border: 1px solid #aaa; height: 95%; width: 100%" frameborder=no></iframe>
+</body>
+</html>
+<script>
+
+	var names = ["ปฏิบัติงาน", "ลาออก", "เกษียณอายุ", "หน่วยงาน", "ยืมตัว", "ที่ปรึกษา"];
+	var values = ["viewemp.php?empflag=1", "viewemp.php?empflag=2", "viewemp.php?empflag=3", "viewemp.php?empflag=4", "viewemp.php?empflag=5", "viewemp.php?empflag=6"];
+
+	var tabs = new AW.UI.Tabs;
+	tabs.setId("myTabs");
+	tabs.setItemText(names);
+	tabs.setItemValue(values);
+	tabs.setItemCount(6);
+	tabs.refresh();
+
+	tabs.onSelectedItemsChanged = function(selected){
+
+		var index = selected[0];
+		var value = this.getItemValue(index);
+		window.status = index + ": " + value;
+
+		document.getElementById("myContent").src = value;
+	}
+
+	tabs.setSelectedItems([0]);
+</script>

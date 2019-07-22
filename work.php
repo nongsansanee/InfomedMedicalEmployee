@@ -63,7 +63,7 @@ if (isset($_POST["save"])){
 
 		$url = 'https://www.si.mahidol.ac.th/department/Medicine/home/api/updEmpWork.asp';
 		$data = "action=1&sapid=".$empid."&userin=".$userin."&empflag=".$empflag."&unitid=".$workunit."&workposition=".$workposition."&positiontype=".$positiontype."&technicid=".$technicid_save."&manager=".$manager;
-		echo "DATA=".$data."<br>";
+		//echo "DATA=".$data."<br>";
 		//msgBox($data);
 		$options = array(
 			'http' => array(

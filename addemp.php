@@ -9,9 +9,135 @@ if (isset($_POST["save"])){
 		$filename = basename($_FILES["emppic"]["name"]);
 		list($name,$sname) = explode(".",$filename);
 		$uploadfile = "../emppic/u$empid.$sname";
-		if (move_uploaded_file($_FILES["emppic"]["tmp_name"], $uploadfile))
+		//echo "uploadfile=".$uploadfile;
+		$upFileName = "u$empid.$sname";
+		if (move_uploaded_file($_FILES["emppic"]["tmp_name"], $uploadfile)){
 			echo "สามารถบันทึกรูปภาพได้";
-		else{
+				//fopen($image, 'r')
+				/********************Send Data To WEB MED  by call API addEmp (sansanee 010762)***********************************/
+			//	$url = 'https://www.si.mahidol.ac.th/department/Medicine/home/api/apiUpImg3.asp';
+			//	$data_img = "sapid=".$empid."&file1=".$emppic;
+				//$data_img = "action=1&sapid=".$empid;
+				//$data_img = fopen($uploadfile, "rb");
+				
+			//	echo "DATA=".$data_img."<br>";
+				//msgBox($data);
+			//	$options = array(
+			//		'http' => array(
+			//	 	'header'  => "Content-type: multipart/form-data\r\n",
+			//	 	'method'  => 'POST',
+			//	 	'content' => $data_img,
+			//	 	),
+			//	 );
+			//	$context  = stream_context_create($options);
+			//	$result = file_get_contents($url, false, $context);
+			//	 echo "11111111111";
+				// $fp = fopen($url, 'rb', false, $context);
+				// echo "2222222222";
+
+				// $response = stream_get_contents($fp);
+
+				// echo "ssssssss";
+				//$uploadfile = "../emppic/u98765411.jpg";
+
+				//echo "<br>uploadfile".$uploadfile."<br>";
+			//	$fileHandle = fopen($uploadfile, "rb");
+				//echo "fileHandle".$fileHandle."<br>";
+				?>
+				 <!-- <img  src="<?php echo $uploadfile ?>" width="80" height="100" border="1" style="border-color:#0066CC" -->
+				<?php
+
+			//	$fileContents = stream_get_contents($fileHandle);
+				//fclose($fileHandle);
+				// $data_img = "sapid=".$empid."&file1=".$fileContents;
+
+				// echo "DATA=".$data_img."<br>";
+			
+
+				 //application/x-www-form-urlencoded
+				 //multipart/form-data
+				//$params = array(
+				 //  'http' => array
+				 //  (
+				//	   'method' => 'POST',
+				//	   'header'=>"Content-Type: multipart/form-data\r\n",
+				//	   'content' => $data_img
+				//   )
+				//);
+				//$url = "https://www.si.mahidol.ac.th/department/Medicine/home/api/apiUpImg4.asp";
+				//$ctx = stream_context_create($params);
+			
+				//--$fp = fopen($url, 'rb', false, $ctx);
+				//$result = file_get_contents($url, false, $ctx);
+				//$response = stream_get_contents($fp);
+
+				//--START FTP   SUCCESS 
+				//$ftp_server = "10.7.101.43";
+				//$ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+				//$login = ftp_login($ftp_conn, "simed", "mhcne5");
+
+				//-- then do something...
+				//echo "uploadfile=".$uploadfile;
+			
+				//$remode_file = "emppic/".$upFileName;
+
+				//-- upload file
+				//if (ftp_put($ftp_conn, $remode_file, $uploadfile, FTP_BINARY))
+				//{
+				//	echo " and Successfully uploaded $file.";
+				//}
+				//else
+				//{
+				//	echo " and Error uploading $file.";
+				//}
+
+				//-- close connection
+				//ftp_close($ftp_conn); 
+
+				//--END FTP SUCCESS
+
+
+				//-------------------CURL  not success
+				
+				//$cfile = curl_file_create('../emppic/u98765412.jpg','image/jpeg','testpic');
+				//--error  Call to undefined function curl_file_create() 
+				//$cfile = new CURLFile('../emppic/u98765412.jpg','image/jpeg','testpic');
+				//$imgdata = array('myimage' => $cfile);
+
+				//$target ="https://www.si.mahidol.ac.th/department/Medicine/home/api/apiUpImg4.asp";
+
+				//$ch = curl_init();
+				//curl_setopt($curl, CURLOPT_URL, $target);
+				//curl_setopt($curl, CURLOPT_USERAGENT,'Opera/9.80 (Windows NT 6.2; Win64; x64) Presto/2.12.388 Version/12.15');
+				//curl_setopt($curl, CURLOPT_HTTPHEADER,array('User-Agent: Opera/9.80 (Windows NT 6.2; Win64; x64) Presto/2.12.388 Version/12.15','Referer: http://someaddress.tld','Content-Type: multipart/form-data'));
+				//curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // stop verifying certificate
+				//curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
+				//curl_setopt($curl, CURLOPT_POST, true); // enable posting
+				//curl_setopt($curl, CURLOPT_POSTFIELDS, $imgdata); // post images 
+				//curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // if any redirection after upload
+				//$ch = curl_exec($curl); 
+				//curl_close($curl);
+			   
+				//--CURL ex2   SUCCESS
+				//$ch = curl_init('https://www.si.mahidol.ac.th/department/Medicine/home/api/apiUpImg4.asp');
+
+				//$file_name = $uploadfile;
+				//echo "uploadfile=".$uploadfile;
+				//echo "empid=".$empid;
+				$cFile = '@'. realpath($uploadfile);
+				$data = array('sapid' => $empid , 'file1' => $cFile);
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL,"https://www.si.mahidol.ac.th/department/Medicine/home/api/apiUpImg.asp");
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+				curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); //add veriry ssl
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$server_output = curl_exec($ch);
+				echo curl_exec($ch);
+				curl_close ($ch);
+
+			//	echo "upload success=".$result;
+		}else{
 			$uploadfile = "";
 			echo "ไม่สามารถบันทึกรูปภาพได้";
 		}
@@ -71,7 +197,7 @@ if (isset($_POST["save"])){
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
 		
-		msgBox("บันทึกข้อมูลเรียบร้อย","history.php?flag=1&empid=$empid&fpage=1");
+		 msgBox("บันทึกข้อมูลเรียบร้อย","history.php?flag=1&empid=$empid&fpage=1");
 	}
 	else{
 		if(!empty($uploadfile)) $upfile="`emppic` = '$uploadfile' ,";
